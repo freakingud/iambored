@@ -1,0 +1,388 @@
+<html>
+    <head>
+        <title>i am BORED</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+        <style>@import url('https://fonts.googleapis.com/css2?family=Azeret+Mono&display=swap');
+               @import url("https://fonts.googleapis.com/css2?family=Poppins&display=swap");</style>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+        
+    </head>
+    <body>
+        <div class="header">
+            <h1>i am BORED 🥱</h1>
+            <div class="right">
+                <div class="mode">
+                    <div class="modal fade" id="myModal" role="dialog">
+                        <div class="modal-dialog">
+                          <div class="modal-content">
+                            <div class="modal-body">
+                              <p>Choose what type of task you're in mood for and hit the button (which you guessed just right! - says "Hit it!"). <br><br>
+                                A task will be suggested to you with additional details like 
+                                <li>how many participants it requires, </li>
+                                <li>ease of doing the task, </li>
+                                <li>and, the cost of task, if any. </li>
+                                <br>
+                                Hope this cures your boredom otherwise feel free to tell the developer that his page is useless! using the social links given at the bottom.</p>
+                            </div>
+                          </div>
+                          
+                        </div>
+                    </div>
+                    <span class="material-icons" data-toggle="modal" data-target="#myModal" id="helpBtn">help</span>
+                    <span class="material-icons" id="moder" onclick="modeSwitcher()">light_mode</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="chooseType">
+                <span> I am <select id="type" name="type">
+                    <option value="education">Educational</option>
+                    <option value="recreational">Recreational</option>
+                    <option value="social">Social</option>
+                    <option value="diy">DIY</option>
+                    <option value="charity">Charity</option>
+                    <option value="cooking">Cooking</option>
+                    <option value="relaxation">Relaxation</option>
+                    <option value="music">Music</option>
+                    <option value="busywork">Busywork</option>
+                  </select> type. </span>
+                  <button id="postReq" onclick="sendReq()">Hit it!</button>
+            </div>
+            <div class="activity">
+                <h2 id="activTitle">You should do this!</h2>
+                <div class="activinfo">
+                    <li>Paticipants: <span id="participants"></span> </li>
+                    <li>Ease: <progress id="ease" value="0.8" max="1.0"></progress></li>
+                    <li>Price:<progress id="price" value="0.2" max="1"></progress></li>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            Made by @freakingud
+            <div class="wrapper">
+                <a href="https://twitter.com/freakingud"><div class="icon twitter">
+                  <div class="tooltip">Twitter</div>
+                  <span><i class="fab fa-twitter"></i></span>
+                </div></a>
+                <a href="https://www.instagram.com/freakingud.dev/"><div class="icon instagram">
+                  <div class="tooltip">Instagram</div>
+                  <span><i class="fab fa-instagram"></i></span>
+                </div></a>
+                <a href="https://github.com/freakingud"><div class="icon github">
+                  <div class="tooltip">Github</div>
+                  <span><i class="fab fa-github"></i></span>
+                </div></a>
+                <a href="https://www.youtube.com/freakingud"><div class="icon youtube">
+                  <div class="tooltip">Youtube</div>
+                  <span><i class="fab fa-youtube"></i></span>
+                </div></a>
+            </div>
+        </div>
+        
+        <script>
+            const helpBtn = document.getElementById('helpBtn');
+            const helpBox = document.querySelector('.helpBox');
+            console.log(helpBox);
+
+            function sendReq(){
+                const type = document.getElementById('type').value;
+                const url = 'http://www.boredapi.com/api/activity?type=' + type;
+
+                const activity = document.getElementById('activTitle');
+                const participants = document.getElementById('participants');
+                const ease = document.getElementById('ease');
+                const price = document.getElementById('price');
+
+                fetch(url)
+                .then(res => res.json())
+                .then(data => {
+                    activity.innerHTML = data.activity;
+                    participants.innerHTML = data.participants;
+                    ease.value = data.accessibility;
+                    price.value = data.price;
+                })
+            }
+
+            function modeSwitcher() {
+                const em = document.body;
+                em.classList.toggle("darkMode");
+
+                const moder = document.getElementById('moder');
+                if(moder.innerHTML == 'light_mode'){
+                    moder.innerHTML = 'dark_mode';
+                } else {
+                    moder.innerHTML = 'light_mode';
+                }
+                
+            }
+            
+
+        </script>
+        <style>
+            *{
+                box-sizing: border-box;
+                margin: 0;
+                padding: 0;
+                font-family: 'Azeret Mono', monospace;
+            }
+
+            .header{
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: 20px;
+                height: 15vh;
+            }
+
+            .mode{
+                display: flex;
+                position: relative;
+            }
+
+            .mode .material-icons{
+                font-size: 2.4em;
+                padding: 10px;
+                cursor: pointer;
+                border-radius: 50px;
+                margin: 5px;
+            }
+
+            .mode .material-icons:hover{
+                background-color: rgba(0, 0, 0, 0.041);
+            }
+
+            .container{
+                height: 85vh;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+            }
+
+            .chooseType{
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                margin: 10vh;
+                position: relative;
+                top: -15vh;
+            }
+
+            #postReq{
+                margin: 20px;
+                border: 2px solid #333333;
+                border-radius: 20px;
+                padding: 8px 12px;
+                background: #333;
+                color: #fff;
+            }
+
+            #postReq:active{
+                background: none;
+                color: #333;
+            }
+
+            #postReq:hover{
+                background: #333333d7;
+            }
+
+            .activity{
+                position: relative;
+                top: -17vh;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .activity h2{
+                margin-bottom: 20px;
+            }
+
+            #activTitle{
+                text-align: center;
+            }
+
+            .activinfo{
+                list-style: none;
+                display: flex;
+                flex-direction: column;
+                margin: 20px;
+            }
+
+            .footer{
+                display: flex;
+                justify-content: space-around;
+                align-items: center;
+                position: fixed;
+                bottom: 0;
+                width: 100%;
+                margin-bottom: 30px;
+                text-align: center;
+            }
+
+            .wrapper {
+            display: inline-flex;
+            }
+
+            .wrapper a{
+                color: #000;
+            }
+
+            .wrapper .icon {
+            position: relative;
+            background-color: #ffffff;
+            border-radius: 50%;
+            padding: 15px;
+            margin: 10px;
+            width: 50px;
+            height: 50px;
+            font-size: 18px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            box-shadow: 0 10px 10px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            transition: all 0.2s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            }
+
+            .wrapper .tooltip {
+            position: absolute;
+            top: 0;
+            font-size: 14px;
+            background-color: #ffffff;
+            color: #ffffff;
+            padding: 5px 8px;
+            border-radius: 5px;
+            box-shadow: 0 10px 10px rgba(0, 0, 0, 0.1);
+            opacity: 0;
+            pointer-events: none;
+            transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            }
+
+            .wrapper .tooltip::before {
+            position: absolute;
+            content: "";
+            height: 8px;
+            width: 8px;
+            background-color: #ffffff;
+            bottom: -3px;
+            left: 50%;
+            transform: translate(-50%) rotate(45deg);
+            transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            }
+
+            .wrapper .icon:hover .tooltip {
+            top: -45px;
+            opacity: 1;
+            visibility: visible;
+            pointer-events: auto;
+            }
+
+            .wrapper .icon:hover span,
+            .wrapper .icon:hover .tooltip {
+            text-shadow: 0px -1px 0px rgba(0, 0, 0, 0.1);
+            }
+
+            .wrapper .facebook:hover,
+            .wrapper .facebook:hover .tooltip,
+            .wrapper .facebook:hover .tooltip::before {
+            background-color: #3b5999;
+            color: #ffffff;
+            }
+
+            .wrapper .twitter:hover,
+            .wrapper .twitter:hover .tooltip,
+            .wrapper .twitter:hover .tooltip::before {
+            background-color: #46c1f6;
+            color: #ffffff;
+            }
+
+            .wrapper .instagram:hover,
+            .wrapper .instagram:hover .tooltip,
+            .wrapper .instagram:hover .tooltip::before {
+            background-color: #e1306c;
+            color: #ffffff;
+            }
+
+            .wrapper .github:hover,
+            .wrapper .github:hover .tooltip,
+            .wrapper .github:hover .tooltip::before {
+            background-color: #333333;
+            color: #ffffff;
+            }
+
+            .wrapper .youtube:hover,
+            .wrapper .youtube:hover .tooltip,
+            .wrapper .youtube:hover .tooltip::before {
+            background-color: #de463b;
+            color: #ffffff;
+            }
+
+            body{
+                background: linear-gradient(to right, #8CA6DB, #B993D6);
+            }
+
+            .darkMode{
+                background: linear-gradient(to right, #24243e, #302b63, #0f0c29);
+                color: #fff;
+            }
+
+            .darkMode .wrapper,.darkMode #type{
+                color: #000;
+            }
+
+            .darkMode .modal-body{
+                background: #000;
+                color: #fff;
+            }
+
+            .darkMode .mode .material-icons:hover{
+                background-color: rgb(255, 255, 255);
+                color: #000;
+            }
+            
+            /* .darkMode #postReq:active{
+                background: none;
+                color: #333;
+            } */
+
+            .darkMode #postReq:active{
+                background: #333333d7;
+                color: #fff;
+            }
+
+            .darkMode #postReq{
+                background: blanchedalmond;
+                color: #000;
+            }
+
+            @media only screen and (max-width: 600px) {
+                h1 {
+                    font-size: 2em;
+                    max-width: 40vw;
+                }
+
+                .chooseType{
+                    font-size: 20px;
+                    text-align: center;
+                }
+
+                select#type{
+                    text-align: center;
+                }
+
+                .footer{
+                    flex-direction: column;
+                }
+            }
+
+        </style>
+    </body>
+</html>
